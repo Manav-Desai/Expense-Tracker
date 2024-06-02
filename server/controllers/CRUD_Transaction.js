@@ -1,5 +1,6 @@
 import {User} from "../models/User.js";
 import {Transaction} from "../models/Transaction.js";
+import bcrypt from "bcrypt";
 
 export async function createUser(req,res)
 {
@@ -63,4 +64,22 @@ export async function readTransaction(req,res)
     
     res.setHeader('Content-Type', 'application/json');
     return res.send({message : "Data Fetched Successfully" , data : trans_data.user_transactions});
+}
+
+export async function validateUser(req,res)
+{
+    const {email , password} = req.body;
+    const user = await User.findOne({email});
+
+    if(user === null)
+    {
+        return res.send({message : "User Not found"});
+    }
+    else
+    {
+        // console.log(user);
+        const result = await bcrypt.compare(password , user.password);
+        return res.send({message : result});
+    }
+    
 }

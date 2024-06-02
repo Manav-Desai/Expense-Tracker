@@ -24,7 +24,7 @@ const Form = () => {
                 </div>
 
                 <div className="submit-btn">
-                    <button className="border py-2 text-white bg-indigo-500 w-full">Make Transaction</button>
+                    <button className="border py-2 text-white bg-indigo-500 rounded-md w-full">Make Transaction</button>
                 </div>
             </div>
         </form>

@@ -1,6 +1,7 @@
 import './App.css';
 import Graph from './components/Graph';
 import Form from './components/Form';
+import History from './components/History';
 
 function App() {
   return (
@@ -13,6 +14,8 @@ function App() {
           <Graph/>
           <Form/>
         </div>
+
+        <History/>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import express from "express";
-import { addTransaction, deleteTransaction, modifyTransaction, readTransaction , createUser } from "../controllers/CRUD_Transaction.js";
+import { addTransaction, deleteTransaction, modifyTransaction, readTransaction , createUser , validateUser} from "../controllers/CRUD_Transaction.js";
 
 const router = express.Router();
 
@@ -13,5 +13,6 @@ router.post("/create" , addTransaction);
 router.get("/read/:id" , readTransaction);
 router.delete("/delete/:id" , deleteTransaction);
 router.put("/update" , modifyTransaction);
+router.post("/verify" , validateUser);
 
 export default router;
