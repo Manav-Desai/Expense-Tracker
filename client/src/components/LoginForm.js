@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { checkValidateData } from '../validate.js';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import {useDispatch} from "react-redux";
+import {addUser} from "../utils/UserSlice.js"
 
 const LoginForm = () => {
     
@@ -13,8 +15,11 @@ const LoginForm = () => {
     const [email , setEmail] = useState(null);
     const [password , setPassword] = useState(null);
     const [username , setUserName] = useState(null);
+
+    const dispatch = useDispatch();
     
     const navigate = useNavigate();
+    // const {setid} = useContext(UserContext);
 
     function toggleSignInForm()
     {
@@ -46,28 +51,30 @@ const LoginForm = () => {
 
             if(verify.data.message === true)
             {
-                navigate("/");
+                dispatch(addUser({_id : verify.data.data._id}));
+                navigate("/Home");
             }
             else
             {
                 toast.error("Invalid credentials . Please enter valid credentials");
-                navigate("/Login");
+                navigate("/");
             }
-
+            
         }
         else
         {
             // sign up logic
-
+            
             const result = await axios.post("http://localhost:3030/register" , {
                 name : username, 
                 email,
                 password
             });
-
+            
             if(result.message !== null)
-            {
-                navigate("/");
+            {        
+                dispatch(addUser({_id : result.data.data._id}));
+                navigate("/Home");
             }
             else
             {

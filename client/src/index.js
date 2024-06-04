@@ -5,28 +5,35 @@ import App from './App';
 import {RouterProvider, createBrowserRouter} from "react-router-dom";
 import LoginForm from './components/LoginForm';
 import Error from './components/Error';
+import {Provider} from "react-redux";
+import appStore from './utils/appStore';
+import Modify from './components/Modify';
 
 const appRouter = createBrowserRouter([
   {
-    path : "/Login",
+    path : "/",
     element : <LoginForm/>,
     errorElement : <Error />
   },
   {
-    path : "/",
+    path : "/Home",
     element : <App/>,
     errorElement : <Error />
   },
   {
     path : "/update",
-    element : "Update User Page",
+    element : <Modify />,
     errorElement : <Error />
-  }
+  },
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
-root.render(<RouterProvider router={appRouter} />);
+root.render(
+    <Provider store={appStore}>
+      <RouterProvider router={appRouter} />
+    </Provider>
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

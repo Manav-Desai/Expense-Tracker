@@ -2,13 +2,18 @@ import React from 'react';
 import { Chart  , ArcElement} from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 import Labels from './Labels';
+import { useSelector } from 'react-redux';
 
 Chart.register(ArcElement);
 
-const config = {
+const Graph = () => {
+  
+  const {details} = useSelector( (store) => store.data);
+
+  const config = {
     data : {
         datasets: [{
-            data: [300, 50, 100],
+            data: [details.investment, details.expense, details.saving],  // [invest,expense,saving]
             backgroundColor: [
               'rgb(255, 99, 132)',
               'rgb(54, 162, 235)',
@@ -22,9 +27,9 @@ const config = {
     options : {
         cutout : 115
     }
-}
+};
 
-const Graph = () => {
+
   return (
     <div className='flex justify-content max-w-xs mx-auto'>
         <div className="item">
@@ -32,7 +37,7 @@ const Graph = () => {
                 <Doughnut {...config}></Doughnut>
                 <h3 className='mb-4 font-bold title'>
                     Total
-                    <span className='block text-3xl text-emerald-400'>${0}</span>
+                    <span className='block text-3xl text-emerald-400'>Rs.{details.saving + details.investment + details.expense}</span>
                 </h3>
             </div>
 
