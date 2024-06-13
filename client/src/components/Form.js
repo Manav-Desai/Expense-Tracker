@@ -7,7 +7,7 @@ import toast, { Toaster } from "react-hot-toast";
 const Form = (props) => {
 
     const [title , setTitle] = useState("");
-    const [type , setType] = useState("Expense");
+    const [type , setType] = useState("");
     const [amount , setAmount] = useState("");
     
     const userdetails = useSelector( (store) => store.user.userdetails );

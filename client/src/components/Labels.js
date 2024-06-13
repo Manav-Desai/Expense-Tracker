@@ -31,7 +31,7 @@ const Labels = () => {
         
         items?.map( (value) => {           
 
-            saving += (value.type.toLowerCase() === "saving" ? value.amount : 0);
+            saving += (value.type.toLowerCase() === "savings" ? value.amount : 0);
             expense += (value.type.toLowerCase() === "expense" ? value.amount : 0);
             investment += (value.type.toLowerCase() === "investment" ? value.amount : 0);
             
