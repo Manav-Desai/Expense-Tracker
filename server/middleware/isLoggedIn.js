@@ -1,33 +1,31 @@
+import jwt from "jsonwebtoken";
 
-async function isLoggedIn(req,res,next)
+async function isLoggedin (req, res, next) 
 {
-    /*
-    Operation performed :
-        1. obtain the cookie from the req
-        2. verify the cookie
-        3. if successfully verified, then allow the user to access the resource
-        4. return the response from here only , not allow user to access the resource
-    */
+    try {
+        let token = req.cookies.jwt;
+        if (token) {
+            try {
+                const decoded = await jwt.verify(token, process.env.JWT_SECRET_KEY);
 
-    const token = req.cookies.jwt;
+                next();
 
-    if(token)
-    {
-        try{
-            const result = await jwt.verify(token , process.env.JWT_SECRET_KEY);
-            next();
+            } catch (error) {
+                res.clearCookie("jwt");
+                return res.status(401).json({
+                    message: "Token expired or invalid",
+                });
+            }
+        } else {
+            if (!token) {
+                return res.status(401).json({
+                    message: "Not Authorized",
+                });
+            }
         }
-        catch(err)
-        {
-            res.clearCookie("jwt");
-            return res.send({message : "Token expired or invalid"});
-        }
-        
-    }
-    else
-    {
-        return res.status(401).send({message : "User is not authorised"});
+    } catch (error) {
+        console.log(error);
     }
 }
 
-export default isLoggedIn;
+export default isLoggedin;

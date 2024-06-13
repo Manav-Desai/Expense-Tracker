@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { checkValidateData } from '../validate.js';
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import {useDispatch} from "react-redux";
 import {addUser} from "../utils/UserSlice.js"
+import "../App.css";
 
 const LoginForm = () => {
     
@@ -20,6 +21,12 @@ const LoginForm = () => {
     
     const navigate = useNavigate();
     // const {setid} = useContext(UserContext);
+
+    useEffect( () => {
+      
+        if(localStorage.getItem("userId") !== null)
+            navigate("/Home");
+    } )
 
     function toggleSignInForm()
     {
@@ -41,16 +48,17 @@ const LoginForm = () => {
         if(issignin)
         {
             // sign in logic
-            const verify = await axios.post("http://localhost:3030/verify" , {
+            const verify = await axios.post("http://localhost:3030/verify", {
                 email : email,
                 password : password
-            });
+            },{withCredentials : true});
 
-            console.log(verify);
-            console.log("Response by server in sign in : " + verify);
+            // console.log(verify);
+            // console.log("Response by server in sign in : " + verify);
 
             if(verify.data.message === true)
             {
+                localStorage.setItem("userId" , verify.data.data._id);
                 dispatch(addUser({_id : verify.data.data._id}));
                 navigate("/Home");
             }
@@ -71,14 +79,10 @@ const LoginForm = () => {
                 password
             });
             
-            if(result.message !== null)
-            {        
-                dispatch(addUser({_id : result.data.data._id}));
-                navigate("/Home");
-            }
-            else
+            if(result.status === 200)
             {
-                navigate("/Error");
+                toast.success("User Created Successfully.. Please Login to continue");
+                navigate("/");
             }
         }
     }
@@ -90,7 +94,7 @@ const LoginForm = () => {
                 <form
                 onSubmit={(e) => {e.preventDefault()}}
                 
-                className='absolute p-12 bg-black w-3/12 my-36 mx-auto left-0 right-0 text-white text-base rounded-xl bg-opacity-80'>
+                className='verysmall absolute p-12 bg-black my-8 mx-auto left-0 right-0 text-white text-base rounded-xl bg-opacity-80'>
                     <h1 className='font-bold text-3xl py-4'>
                         {issignin ? "Sign In" : "Sign Up"} 
                     </h1>

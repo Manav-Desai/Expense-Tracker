@@ -15,17 +15,12 @@ const Form = (props) => {
 
     async function handleSubmit()
     {
-        console.log("Submitting the data");
-
         const response = await axios.post("http://localhost:3030/create" , {
             title,
             type,
             amount,
             doneBy : userdetails._id
-        });
-
-        console.log("Response...");
-        console.log(response);
+        } , {withCredentials : true});
         
         if(response.data.message === true)
         {

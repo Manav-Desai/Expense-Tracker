@@ -8,6 +8,7 @@ import Error from './components/Error';
 import {Provider} from "react-redux";
 import appStore from './utils/appStore';
 import Modify from './components/Modify';
+import AskGemini from './components/AskGemini';
 
 const appRouter = createBrowserRouter([
   {
@@ -25,6 +26,11 @@ const appRouter = createBrowserRouter([
     element : <Modify />,
     errorElement : <Error />
   },
+  {
+    path : "/genAI",
+    element : <AskGemini/>,
+    errorElement : <Error/>
+  }
 ]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

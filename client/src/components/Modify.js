@@ -19,7 +19,7 @@ const Modify = () => {
   {
         const result = await axios.put("http://localhost:3030/update" , {
             title,type,amount,_id : data._id
-        });
+        }, {withCredentials : true});
 
         if(result.data.message)
         {
@@ -38,7 +38,7 @@ const Modify = () => {
 
   async function handleDelete()
   {
-        const result = await axios.delete(`http://localhost:3030/delete/${data._id}`);
+        const result = await axios.delete(`http://localhost:3030/delete/${data._id}`, {withCredentials : true});
 
         if(result.data.message)
         {

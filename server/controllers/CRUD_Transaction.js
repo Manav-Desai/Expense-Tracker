@@ -1,18 +1,24 @@
 import {User} from "../models/User.js";
 import {Transaction} from "../models/Transaction.js";
 import bcrypt from "bcrypt";
+import { generateToken } from "../utils/generateToken.js";
 
 export async function createUser(req,res)
 {
     try
     {
         const {name , password , email} = req.body;
+
+        const existedUser = await User.findOne({email});
+
+        if(existedUser)
+            return res.status(404).json({message : false});
     
         const createdUser = await User.create({
             name,password,email
         });
 
-        return res.send({message : "User Created Successfully..." , data : createUser});
+        return res.status(200).send({message : "User Created Successfully..." , data : createUser});
     }
     catch(err)
     {
@@ -108,16 +114,23 @@ export async function readTransaction(req,res)
 export async function validateUser(req,res)
 {
     const {email , password} = req.body;
-    const user = await User.findOne({email});
+    const user = await User.findOne({email}).select("+password");
 
     if(user === null)
     {
-        return res.send({message : "User Not found"});
+        return res.send({message : false});
     }
     else
     {
         // console.log(user);
         const result = await bcrypt.compare(password , user.password);
+
+        if(result)
+        {
+            const token = await generateToken(user._id);
+            res.cookie("jwt" , token);
+        }
+
         return res.send({message : result , data : user});
     }
     

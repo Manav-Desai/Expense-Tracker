@@ -6,8 +6,7 @@ import { addItems } from '../utils/TransactionSlice.js';
 
 const History = (props) => {
   
-  const [trans,settrans] = useState([]);
-  const userdetails = useSelector( (store) => store.user.userdetails );
+  const {_id} = useSelector( (store) => store.user.userdetails );
 
   const {items} = useSelector( (store) =>  store.transaction);
 
@@ -15,19 +14,15 @@ const History = (props) => {
 
   useEffect( () => {
     getDataById();
-  } , [props.value.flag]);
+  } , [props.value.flag , _id]);
 
 
   async function getDataById()
   {
-      const response = await axios.get(`http://localhost:3030/read/${userdetails._id}`);
+      const response = await axios.get(`http://localhost:3030/read/${_id}`, {withCredentials : true});
       
       if(response.status === 200)
       {
-        settrans(response.data.data);
-        console.log("Inside History : \n\n");
-
-        console.log(response.data.data);
         dispatch(addItems(response.data.data));
       }
   }

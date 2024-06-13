@@ -35,6 +35,16 @@
   background-color: var(--color-purple);
 }
 
+.verysmall{
+  width: 360px;
+}
+
+@media only screen and (max-width : 400px) {
+  
+  .verysmall{
+    width: 280px;
+  }
+}
 .chart .title{
   position: absolute;
   left: 0;
