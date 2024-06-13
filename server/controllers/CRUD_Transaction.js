@@ -29,7 +29,7 @@ export async function createUser(req,res)
 export async function addTransaction(req,res)
 {
     try{
-        console.log(req.body);
+        // console.log(req.body);
         const {title , type , amount , doneBy} = req.body;
 
         if(doneBy == null)
@@ -98,7 +98,7 @@ export async function readTransaction(req,res)
 
         const updated = result.filter( (value) =>  user_id == value._id);
         
-        updated.map((value) => console.log(value));
+        // updated.map((value) => console.log(value));
 
         let trans_data = updated[0];
         
